@@ -23,4 +23,15 @@ class GameSetUp
     end
   end
 
+  def create_two_shuffled_decks
+    @deck.shuffle
+    @deck_1 = @deck[0..25]
+    @deck_2 = @deck[26..52]
+  end
+
+  def assign_decks
+    @player1 = Player.new("Katie", deck_1)
+    @player2 = Player.new("Kelly", deck_2)
+  end
+  
 end
