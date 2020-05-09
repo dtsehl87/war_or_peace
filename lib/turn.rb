@@ -1,11 +1,12 @@
 class Turn
 
-  attr_reader :player1, :player2, :spoils_of_war
+  attr_reader :player1, :player2, :spoils_of_war, :winner
 
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
     @spoils_of_war = []
+    @winner = winner
   end
 
   def type
@@ -15,13 +16,16 @@ class Turn
     elsif @player1.deck.cards[0].rank == @player2.deck.cards[0].rank
       :war
 
-    else
+    elsif @player1.deck.cards[0].rank != @player2.deck.cards[0].rank
       :basic
     end
   end
 
   def winner
-    if type == :basic
+    if type == :mutually_assured_destruction
+      mad_winner = "No Winner"
+
+    elsif type == :basic
       if @player1.deck.cards[0].rank > @player2.deck.cards[0].rank
         @player1
       elsif @player2.deck.cards[0].rank > @player1.deck.cards[0].rank
@@ -35,8 +39,6 @@ class Turn
         @player2
       end
 
-    elsif type == :mutually_assured_destruction
-      @winner = "No Winner"
     end
   end
 
@@ -63,10 +65,11 @@ class Turn
     end
   end
 
-  def award_spoils(winner)
-    if @winner == @player1
+  def award_spoils(turn_winner)
+    turn_winner = @winner
+    if turn_winner == @player1
       @player1.deck.cards.push(@spoils_of_war).flatten!
-    elsif @winner == @player2
+    elsif turn_winner == @player2
       @player2.deck.cards.push(@spoils_of_war).flatten!
     end
   end

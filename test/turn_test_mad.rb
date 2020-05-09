@@ -28,7 +28,8 @@ class TurnTestMutuallyAssuredDestruction < Minitest::Test
   end
 
   def test_there_can_be_no_winner
-    assert_equal "No Winner", @turn.winner
+    winner = @turn.winner
+    assert_equal "No Winner", winner
   end
 
   def test_if_spoils_of_war_is_empty_after_cards_piled_and_decks_have_shrunk
