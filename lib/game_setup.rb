@@ -29,8 +29,8 @@ class GameSetUp
 
   def create_two_shuffled_decks
     @deck.shuffle!
-    @deck_1 = @deck[0..25]
-    @deck_2 = @deck[26..52]
+    @deck_1 = Deck.new(@deck[0..25])
+    @deck_2 = Deck.new(@deck[25..52])
   end
 
   def assign_decks
@@ -57,16 +57,22 @@ class GameSetUp
 
   def play
     turn_counter = 1
-    10.times do |turn|
+    50.times do |turn|
       turn = Turn.new(@player1, @player2)
       if turn.type == :basic
-        puts "Turn #{turn_counter}: #{@player_1.name} won 2 cards"
+        puts "Turn #{turn_counter}: #{@player1.name} won 2 cards"
+        turn.pile_cards
+        turn.award_spoils(@winner)
         turn_counter += 1
       elsif turn.type == :war
-        puts "Turn #{turn_counter}: #{@player_1.name} won 6 cards"
+        puts "Turn #{turn_counter}: #{@player1.name} won 6 cards"
+        turn.pile_cards
+        turn.award_spoils(@winner)
         turn_counter += 1
       elsif turn.type == :mutually_assured_destruction
         puts "*mutually assured destruction* 6 cards removed from play"
+        turn.pile_cards
+        turn.award_spoils(@winner)
         turn_counter += 1
       end
     end
