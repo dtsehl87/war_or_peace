@@ -1,0 +1,4 @@
+class RunGame
+
+  def initialize
+    
