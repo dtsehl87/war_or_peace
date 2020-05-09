@@ -1,20 +1,12 @@
 class Turn
 
-  attr_reader :player_1, :player_2, :spoils_of_war
+  attr_reader :player1, :player2, :spoils_of_war
 
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
     @spoils_of_war = []
     @winner = winner
-  end
-
-  def player1
-    @player1.deck.cards[0]
-  end
-
-  def player2
-    @player2.deck.cards[0]
   end
 
   def type

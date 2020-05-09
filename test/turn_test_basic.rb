@@ -23,9 +23,8 @@ class TurnTestBasic < Minitest::Test
     @turn = Turn.new(@player1, @player2)
   end
 
-  def test_players_can_take_turns
-    assert_equal @card1, @turn.player1
-    assert_equal @card3, @turn.player2
+  def test_it_exists
+    assert_instance_of Turn, @turn
   end
 
   def test_spoils_of_war_defaults_empty

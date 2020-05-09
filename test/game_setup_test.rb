@@ -63,4 +63,11 @@ class GameSetUpTest < Minitest::Test
     assert_equal "The players today are Katie and Kelly.", setting_up.start_string_2
   end
 
+  def test_turns_can_be_played
+    setting_up = GameSetUp.new
+    setting_up.start
+
+    assert_instance_of Turn, setting_up.turn
+  end
+
 end

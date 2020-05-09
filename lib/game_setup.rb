@@ -9,7 +9,7 @@ class GameSetUp
               :player1,
               :player2,
               :start_string_1,
-              :start_string_2
+              :start_string_2,
               :starting_pistol
 
   def initialize
@@ -28,7 +28,7 @@ class GameSetUp
   end
 
   def create_two_shuffled_decks
-    @deck.shuffle
+    @deck.shuffle!
     @deck_1 = @deck[0..25]
     @deck_2 = @deck[26..52]
   end
@@ -44,16 +44,32 @@ class GameSetUp
     self.assign_decks
     @start_string_1 = "Welcome to War! (or Peace) This game will be played with #{@deck.count} cards."
     @start_string_2 = "The players today are #{self.player1.name} and #{self.player2.name}."
-    puts @start_string_1
-    puts @start_string_2
-    puts "Type 'GO' to start the game!"
-    puts "------------------------------------------------------------------"
-    @starting_pistol = gets.chomp.upcase
-    if @starting_pistol =! "GO"
-      puts "Please re-type GO and hit enter"
-    else
-      # code/method call to play the game starts here
+    # puts @start_string_1
+    # puts @start_string_2
+    # puts "Type 'GO' to start the game!"
+    # puts "------------------------------------------------------------------"
+    # @starting_pistol = gets.chomp.upcase
+    # if @starting_pistol =! "GO"
+    #   puts "Please re-type GO and hit enter"
+    # else
+    self.play
+  end
 
+  def play
+    turn_counter = 1
+    10.times do |turn|
+      turn = Turn.new(@player1, @player2)
+      if turn.type == :basic
+        puts "Turn #{turn_counter}: #{@player_1.name} won 2 cards"
+        turn_counter += 1
+      elsif turn.type == :war
+        puts "Turn #{turn_counter}: #{@player_1.name} won 6 cards"
+        turn_counter += 1
+      elsif turn.type == :mutually_assured_destruction
+        puts "*mutually assured destruction* 6 cards removed from play"
+        turn_counter += 1
+      end
+    end
   end
 
 end

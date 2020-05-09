@@ -1,4 +1,0 @@
-class RunGame
-
-  def initialize
-    
