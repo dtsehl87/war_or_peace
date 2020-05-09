@@ -39,6 +39,10 @@ class TurnTestBasic < Minitest::Test
     assert_equal @player1, @turn.winner
   end
 
+  def test_there_can_be_a_loser
+    assert_equal @player2, @turn.winner
+  end
+
   def test_if_cards_can_be_piled
     @turn.pile_cards
 

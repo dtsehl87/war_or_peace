@@ -29,12 +29,12 @@ class GameSetUp
 
   def create_two_shuffled_decks
     @deck.shuffle!
-    @deck_1 = Deck.new(@deck[0..25])
-    @deck_2 = Deck.new(@deck[25..52])
+    @deck_1 = Deck.new(@deck[0..25].shuffle!)
+    @deck_2 = Deck.new(@deck[25..52].shuffle!)
   end
 
   def assign_decks
-    @player1 = Player.new("Katie", deck_1)
+    @player1 = Player.new("Joe", deck_1)
     @player2 = Player.new("Kelly", deck_2)
   end
 
@@ -44,28 +44,50 @@ class GameSetUp
     self.assign_decks
     @start_string_1 = "Welcome to War! (or Peace) This game will be played with #{@deck.count} cards."
     @start_string_2 = "The players today are #{self.player1.name} and #{self.player2.name}."
-    # puts @start_string_1
-    # puts @start_string_2
-    # puts "Type 'GO' to start the game!"
-    # puts "------------------------------------------------------------------"
-    # @starting_pistol = gets.chomp.upcase
-    # if @starting_pistol =! "GO"
-    #   puts "Please re-type GO and hit enter"
-    # else
-    self.play
+    puts @start_string_1
+    puts @start_string_2
+    puts "Type 'GO' to start the game!"
+    puts "------------------------------------------------------------------"
+    @starting_pistol = gets.chomp.upcase
+    if @starting_pistol == "GO"
+      self.play
+    else
+      puts "Please type GO instead."
+    end
   end
 
   def play
     turn_counter = 1
-    50.times do |turn|
+    1000000.times do |turn|
+      if turn_counter == 1000000
+        puts "---- DRAW ----"
+        break
+      end
+
+      if @player1.has_lost? == true
+        puts "#{@player1.name} has lost!"
+        break
+      elsif @player1.has_lost? == true
+        puts "#{@player2.name} has lost!"
+        break
+      end
+
+      if @player1 == turn.winner
+        puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
+        break
+      elsif @player2 == turn.winner
+        puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
+        break
+      end
+
       turn = Turn.new(@player1, @player2)
       if turn.type == :basic
-        puts "Turn #{turn_counter}: #{@player1.name} won 2 cards"
+        puts "Turn #{turn_counter}: #{turn.winner.name} won 2 cards"
         turn.pile_cards
         turn.award_spoils(@winner)
         turn_counter += 1
       elsif turn.type == :war
-        puts "Turn #{turn_counter}: #{@player1.name} won 6 cards"
+        puts "Turn #{turn_counter}: #{turn.winner.name} won 6 cards"
         turn.pile_cards
         turn.award_spoils(@winner)
         turn_counter += 1
@@ -77,5 +99,6 @@ class GameSetUp
       end
     end
   end
+
 
 end
