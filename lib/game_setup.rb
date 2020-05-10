@@ -70,18 +70,14 @@ class GameSetUp
   def play
     turn_counter = 1
     while turn_counter < 1000000 do
-      if @player1.has_lost? == true
-        puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
-        break
-      elsif @player2.has_lost? == true
-        puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
-        break
-      end
-
       turn = Turn.new(@player1, @player2)
       if turn_counter == 1000000
         puts "---- DRAW ----"
         break
+      end
+
+      if @player1.deck.cards.class == NilClass || @player2.deck.cards.class == NilClass
+        puts "Someone has won"
       end
 
       if turn.type == :mutually_assured_destruction
@@ -95,6 +91,14 @@ class GameSetUp
         turn.pile_cards
         puts "Turn #{turn_counter}: WAR - #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
         turn.award_spoils(turn.winner)
+      end
+
+      if @player1.has_lost? == true
+        puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
+        break
+      elsif @player2.has_lost? == true
+        puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
+        break
       end
 
       turn_counter += 1

@@ -31,8 +31,15 @@ class Deck
   end
 
   def remove_3_cards
-    3.times do
-      cards.shift
+    if cards.count >= 3
+      3.times do
+        cards.shift
+      end
+    elsif (cards.count > 0) && (cards.count < 3)
+      cards.count.times do
+        cards.shift
+      end
+    else
     end
   end
 
