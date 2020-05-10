@@ -12,32 +12,6 @@ class GameSetUp
               :start_string_2,
               :starting_pistol
 
-  # def initialize
-  #   @deck = []
-  #   @suits = %i[heart diamond spade club]
-  #   @values = %w[2 3 4 5 6 7 8 9 10 Jack Queen King Ace]
-  #   @ranks = (2..14).to_a
-  # end
-  #
-  # def new_deck
-  #   @suits.each do |suit|
-  #     @values.count.times do |counter|
-  #       @deck << Card.new(suit, @values[counter], @ranks[counter])
-  #     end
-  #   end
-  # end
-  #
-  # def create_two_shuffled_decks
-  #   @deck.shuffle!
-  #   @deck_1 = Deck.new(@deck[0..25].shuffle!)
-  #   @deck_2 = Deck.new(@deck[25..52].shuffle!)
-  # end
-  #
-  # def assign_decks
-  #   @player1 = Player.new("Joe", deck_1)
-  #   @player2 = Player.new("Kelly", deck_2)
-  # end
-
   def start
     deck = []
     suits = %i[heart diamond spade club]
@@ -70,13 +44,22 @@ class GameSetUp
   def play
     turn_counter = 1
     while turn_counter < 1000000 do
-      turn = Turn.new(@player1, @player2)
       if turn_counter == 1000000
         puts "---- DRAW ----"
         break
       end
 
-      if @player1.deck.cards.class == NilClass || @player2.deck.cards.class == NilClass
+      if @player1.has_lost? == true
+        puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
+        break
+      elsif @player2.has_lost? == true
+        puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
+        break
+      end
+
+      turn = Turn.new(@player1, @player2)
+
+      if (@player1.deck.cards.empty?) || (@player2.deck.cards.empty?)
         puts "Someone has won"
       end
 
@@ -87,7 +70,7 @@ class GameSetUp
         turn.pile_cards
         puts "Turn #{turn_counter}: #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
         turn.award_spoils(turn.winner)
-      elsif turn.type == :war
+      else
         turn.pile_cards
         puts "Turn #{turn_counter}: WAR - #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
         turn.award_spoils(turn.winner)

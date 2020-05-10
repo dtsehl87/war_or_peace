@@ -35,11 +35,10 @@ class Deck
       3.times do
         cards.shift
       end
-    elsif (cards.count > 0) && (cards.count < 3)
+    else
       cards.count.times do
         cards.shift
       end
-    else
     end
   end
 
