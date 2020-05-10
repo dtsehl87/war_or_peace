@@ -58,13 +58,25 @@ class GameSetUp
 
   def play
     turn_counter = 1
-    1000000.times do |turn|
+    while turn_counter < 1000000 do
+      turn = Turn.new(@player1, @player2)
       if turn_counter == 1000000
         puts "---- DRAW ----"
         break
       end
 
-      turn = Turn.new(@player1, @player2)
+      if turn.type == :mutually_assured_destruction
+        puts "Turn #{turn_counter}: *mutually assured destruction* 6 cards removed from play"
+        turn.pile_cards
+      elsif turn.type == :basic
+        turn.pile_cards
+        puts "Turn #{turn_counter}: #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
+        turn.award_spoils(turn.winner)
+      elsif turn.type == :war
+        turn.pile_cards
+        puts "Turn #{turn_counter}: WAR - #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
+        turn.award_spoils(turn.winner)
+      end
 
       if @player1.has_lost? == true
         puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
@@ -72,22 +84,12 @@ class GameSetUp
       elsif @player2.has_lost? == true
         puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
         break
-      elsif turn.type == :mutually_assured_destruction
-        turn.pile_cards
-        puts "Turn #{turn_counter}: *mutually assured destruction* 6 cards removed from play"
-        turn_counter += 1
-      elsif turn.type == :basic
-        turn.pile_cards
-        puts "Turn #{turn_counter}: #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
-        turn.award_spoils(turn.winner)
-        turn_counter += 1
-      elsif turn.type == :war
-        turn.pile_cards
-        puts "Turn #{turn_counter}: #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
-        turn.award_spoils(turn.winner)
-        turn_counter += 1
       end
+
+      turn_counter += 1
+
     end
+
   end
 
 end

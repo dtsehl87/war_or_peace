@@ -30,6 +30,12 @@ class Deck
     cards.shift
   end
 
+  def remove_3_cards
+    3.times do
+      cards.shift
+    end
+  end
+
   def add_card(new_card)
     cards.push(new_card)
   end
