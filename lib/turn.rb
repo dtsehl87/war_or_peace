@@ -42,9 +42,11 @@ class Turn
     elsif type == :war
       @spoils_of_war << @player1.deck.cards[0..2]
       @spoils_of_war << @player2.deck.cards[0..2]
+      @spoils_of_war.flatten!
     else
       @spoils_of_war << @player1.deck.cards[0]
       @spoils_of_war << @player2.deck.cards[0]
+      @spoils_of_war.flatten!
     end
   end
 
@@ -53,25 +55,25 @@ class Turn
       @player1.deck.remove_3_cards
       @player2.deck.remove_3_cards
       @player1.deck.cards << self.spoils_of_war
-      @player1.deck.cards.flatten
+      @player1.deck.cards.flatten!
       @spoils_of_war = []
     elsif turn_winner == @player2 && (type == :war)
       @player1.deck.remove_3_cards
       @player2.deck.remove_3_cards
       @player2.deck.cards << self.spoils_of_war
-      @player2.deck.cards.flatten
+      @player2.deck.cards.flatten!
       @spoils_of_war = []
     elsif (turn_winner == @player1) && (type == :basic)
       @player1.deck.remove_card
       @player2.deck.remove_card
       @player1.deck.cards << self.spoils_of_war
-      @player1.deck.cards.flatten
+      @player1.deck.cards.flatten!
       @spoils_of_war = []
     elsif turn_winner == @player2 && (type == :basic)
       @player1.deck.remove_card
       @player2.deck.remove_card
       @player2.deck.cards << self.spoils_of_war
-      @player2.deck.cards.flatten
+      @player2.deck.cards.flatten!
       @spoils_of_war = []
     end
   end
