@@ -121,9 +121,13 @@ class TurnTestBasic < Minitest::Test
 
     turn.pile_cards
 
+    assert_equal :basic, turn.type
+
     turn.award_spoils(turn.winner)
 
     assert_equal test_cards, player2.deck.cards.last
+    assert_equal false, player1.deck.cards.include?(test_cards[0])
+    assert_equal [], turn.spoils_of_war
   end
 
 end

@@ -65,6 +65,14 @@ class GameSetUp
         break
       end
 
+      if @player1.has_lost? == true
+        puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
+        break
+      elsif @player2.has_lost? == true
+        puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
+        break
+      end
+
       if turn.type == :mutually_assured_destruction
         puts "Turn #{turn_counter}: *mutually assured destruction* 6 cards removed from play"
         turn.pile_cards
@@ -76,14 +84,6 @@ class GameSetUp
         turn.pile_cards
         puts "Turn #{turn_counter}: WAR - #{turn.winner.name} won #{turn.spoils_of_war.count} cards"
         turn.award_spoils(turn.winner)
-      end
-
-      if @player1.has_lost? == true
-        puts "*~*~*~* #{@player2.name} has won the game! *~*~*~*"
-        break
-      elsif @player2.has_lost? == true
-        puts "*~*~*~* #{@player1.name} has won the game! *~*~*~*"
-        break
       end
 
       turn_counter += 1
